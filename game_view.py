@@ -38,8 +38,8 @@ class GameView:
                     print(self.state)
                     m = self.state.get_move()
                 print('You choose: {}'.format(m))
-                #m = self.strategy.suggest_move(self.state)
-                #print('The first computer chooses: {}'.format(m))
+                # m = self.strategy.suggest_move(self.state)
+                # print('The first computer chooses: {}'.format(m))
             else:
                 # The computer makes a move.
                 m = self.strategy.suggest_move(self.state)
@@ -63,7 +63,7 @@ if __name__ == '__main__':
     from tippy_state import TippyState
     from tic_state import TicState
 
-    game_state = ({'s': SubtractSquareState, 't': TippyState, 'tic':TicState})
+    game_state = ({'s': SubtractSquareState, 't': TippyState, 'tic': TicState})
     from strategy_random import StrategyRandom
     from strategy_minimax import StrategyMinimax
 

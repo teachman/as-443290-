@@ -35,10 +35,10 @@ class TippyMove(Move):
         '''
         return isinstance(other,
                           TippyMove) and self.symbol == other.symbol and (
-                                                                         self.x,
-                                                                         self.y) == (
-                                                                         other.x,
-                                                                         other.y)
+                                                                             self.x,
+                                                                             self.y) == (
+                                                                             other.x,
+                                                                             other.y)
 
 
 if __name__ == '__main__':

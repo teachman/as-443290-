@@ -1,7 +1,7 @@
+from random import randint
+
 from game_state import GameState
 from subtract_square_move import SubtractSquareMove
-from math import sqrt
-from random import randint
 
 
 class SubtractSquareState(GameState):

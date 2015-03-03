@@ -1,6 +1,7 @@
+import copy
+
 from game_state import GameState
 from tippy_move import TippyMove
-import copy
 
 
 class TippyState(GameState):
@@ -58,10 +59,13 @@ class TippyState(GameState):
 
         for x in range(len(self.board[0])):
             returnstatement += '\n' + '-' * (2 * len(self.board[0]) + 1) + \
-                '\n ' if x != 0 else ''
+                               '\n ' if x != 0 else ''
             for y in range(len(self.board[x])):
                 returnstatement += "{}|".format(self.board[x][y]) if y != \
-                    len(self.board[x]) - 1 else "{}".format(self.board[x][y])
+                                                                     len(
+                                                                         self.board[
+                                                                             x]) - 1 else "{}".format(
+                    self.board[x][y])
 
         return returnstatement
 
@@ -85,22 +89,23 @@ class TippyState(GameState):
         """
         
         """
-
+        opponent_tie = False
         for move in self.possible_next_moves():
             # maintain a copy
             new_self = copy.deepcopy(self).apply_move(move)
-            print(new_self)
             if new_self.winner(self.next_player):
                 return 1
-            else:
-                for move in new_self.possible_next_moves():
-                    print(copy.deepcopy(new_self).apply_move(move), '\n') 
-                    if copy.deepcopy(new_self).apply_move(move).winner(self.opponent()):
-                        return -1
-                    
-        return 0
-             
-                                          
+            elif not opponent_tie:
+                opponent_win = False
+                for m in new_self.possible_next_moves():
+                    if copy.deepcopy(new_self).apply_move(m).winner(
+                            self.opponent()):
+                        opponent_win = True
+                if not opponent_win:
+                    opponent_tie = True
+
+        return -1 if not opponent_tie else 0
+
 
     def get_move(self):
 
@@ -180,7 +185,6 @@ def is_tippy(b):
 
     return False
 
-b = TippyState('p1', False, [['O', 'X', 'X'], [' ', 'X', 'O'],[' ', ' ', ' ']])
 
 
 

@@ -1,5 +1,6 @@
-from strategy import Strategy
 import copy
+
+from strategy import Strategy
 
 
 class StrategyMinimax(Strategy):
@@ -29,18 +30,18 @@ class StrategyMinimax(Strategy):
             else:
                 score = 1 if new_state.winner(self.player) else -1 if \
                     new_state.winner(self.opponent) else 0
-            
-            if depth == 1 and score == 1: 
-                print("W: {}".format(move))     
+
+            if depth == 1 and score == 1:
+                print("W: {}".format(move))
             if depth == 1 and score == 0:
                 print("T: {}".format(move))
             if depth == 1 and score == -1:
                 print("L: {}".format(move))
-            
+
             if best_score is None or (state.next_player != self.player and
-                                      score < best_score) or (
-                            state.next_player
-                            == self.player and score > best_score):
+                                              score < best_score) or (
+                            state.next_player == self.player and score >
+                        best_score):
                 best_score, best_move = score, move
 
         return best_move, best_score
@@ -48,25 +49,3 @@ class StrategyMinimax(Strategy):
     
 
             
-            
-    
-        
-       
-                
-            
-                  
-
-
-                
-            
-                
-    
-   
-            
-        
-
-    
-   
-            
-        
-   
