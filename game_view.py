@@ -1,4 +1,3 @@
-# 2 lines edited
 class GameView:
     '''
     A game view for a two-player, sequential move, zero-sum,
@@ -17,6 +16,7 @@ class GameView:
             p = 'p2'
         else:
             p = 'p1'
+            
         self.state = state(p, interactive=True)
         self.strategy = strategy(interactive=True)
 
@@ -26,8 +26,9 @@ class GameView:
         Play a game.
         '''
         print(self.state.instructions)
-        print(self.state)
-        print()
+        print(self.state + '\n')
+        
+        
         while self.state.possible_next_moves():
             if self.state.next_player == 'p1':
                 m = self.state.get_move()
@@ -38,8 +39,6 @@ class GameView:
                     print(self.state)
                     m = self.state.get_move()
                 print('You choose: {}'.format(m))
-                # m = self.strategy.suggest_move(self.state)
-                # print('The first computer chooses: {}'.format(m))
             else:
                 # The computer makes a move.
                 m = self.strategy.suggest_move(self.state)
@@ -63,18 +62,21 @@ if __name__ == '__main__':
     from tippy_state import TippyState
     from tic_state import TicState
 
-    game_state = ({'s': SubtractSquareState, 't': TippyState, 'tic': TicState})
+    game_state = ({'s': SubtractSquareState, 't': TippyState, 'tic':TicState})
     from strategy_random import StrategyRandom
     from strategy_minimax import StrategyMinimax
 
     strategy = ({'r': StrategyRandom, 'm': StrategyMinimax})
     g = ''
     while not g in game_state.keys():
-        g = input('s to play Subtract Square, t to play Tippy, tic to play '
-                  'TicTacToe\n')
+        g = input('Choose s to play Subtract Square\n' +
+                  'Choose t to play Tippy\n' +
+                  'Choose tic to play TicTacToe\n')
     s = ''
+    
     while not s in strategy.keys():
         s = input(
-            'r for random strategy for computer, \nm for minimax strategy for '
-            'computer: ')
+            'Choose r to play a computer with a random strategy.\n' +
+            'Choose m to play a computer with the minimax strategy.\n')
+        
     GameView(game_state[g], strategy[s]).play()
