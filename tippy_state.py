@@ -242,12 +242,3 @@ def is_tippy(b):
                            (b[x][y + 1], b[x + 1][y + 1]) == s
 
     return False
-
-b = TippyState('p1', False, [['O', 'X', 'X'], [' ', 'X', 'O'],[' ', ' ', ' ']])
-
-
-
-
-
-
-
