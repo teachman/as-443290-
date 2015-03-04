@@ -103,10 +103,13 @@ class TippyState(GameState):
         """ (TippyState, TippyMove) -> TippyState
                 
         Return new TippyState iff TippyMove is legal. 
-        >>> t = TippyState('p1', False, 3)
+        
+        >>> t = TippyState('p1', True)
+        How big should the board be? 
+        3
         >>> m = TippyMove(1,1, 'O')
         t.apply_move(m) 
-        ???
+        
         """        
         if move in self.possible_next_moves():
             self.board[move.x - 1][move.y - 1] = move.symbol
@@ -162,7 +165,6 @@ class TippyState(GameState):
         >>> t.winner('p1')
         True
         """
-
         return is_tippy(self.board) and self.opponent() == player
 
     def possible_next_moves(self):
