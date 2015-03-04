@@ -1,8 +1,7 @@
 from move import Move
 
-
 class TippyMove(Move):
-    ''' A move in the game of Subtract Square.
+    ''' A move in the game of Tippy.
 
     amount: int -- amount to subtract from current value.
     '''
@@ -10,7 +9,7 @@ class TippyMove(Move):
     def __init__(self, location, p):
         """
         
-        beepboopbeepboop
+        Determine p's symbol, as well as its x and y coordinate.
         """
         self.symbol = 'X' if p == 'p1' else 'O'
         self.x = location[0]
@@ -28,21 +27,9 @@ class TippyMove(Move):
         """
         return "{} at ({},{})".format(self.symbol, self.x, self.y)
 
-
     def __eq__(self, other):
         '''
         blala
         '''
-        return isinstance(other,
-                          TippyMove) and self.symbol == other.symbol and (
-                                                                             self.x,
-                                                                             self.y) == (
-                                                                             other.x,
-                                                                             other.y)
-
-
-if __name__ == '__main__':
-    import doctest
-
-    doctest.testmod()
-
+        return isinstance(other, TippyMove) and self.symbol == other.symbol \
+               and (self.x, self.y) == (other.x,other.y)
