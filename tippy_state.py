@@ -104,7 +104,7 @@ class TippyState(GameState):
                 
         Return new TippyState iff TippyMove is legal. 
         >>> t = TippyState('p1', False, 3)
-        >>> m = TippyMove((1,1), 'X')
+        >>> m = TippyMove(1,1, 'O')
         t.apply_move(m) 
         ???
         """        
@@ -148,20 +148,35 @@ class TippyState(GameState):
         Which Column? 
         1
         TippyMove(1,1, 'X')
-        """              
+        """        
         x, y = int(input("Which row? \n")), int(input("Which Column? \n"))
         return TippyMove((x, y), self.next_player)
 
     def winner(self, player):
-        """
-        gotta do this still
+        """(TippyState, str) -> bool
+        
+        Return True if the player has won the game. 
+        
+        >>> t = (TippyState('p1', False, [[' ', 'X', 'X'], ['X', 'X', ' '],
+        [' ', ' ', ' ']])) 
+        >>> t.winner('p1')
+        True
         """
 
         return is_tippy(self.board) and self.opponent() == player
 
     def possible_next_moves(self):
-        """
-        need to add checking for tippys
+        """(TippyState) -> list of TippyMove
+        
+        Return a list of legal moves for a given instance of the game. 
+        
+        >>> t = TippyState('p1', True)
+        How big should the board be? 
+        3
+        >>> t.possible_next_moves()
+        [TippyMove(1,1, 'X'), TippyMove(1,2, 'X'), TippyMove(1,3, 'X'), \
+        TippyMove(2,1, 'X'), TippyMove(2,2, 'X'), TippyMove(2,3, 'X'), \
+        TippyMove(3,1, 'X'), TippyMove(3,2, 'X'), TippyMove(3,3, 'X')]
         """
 
         moves = []
@@ -183,21 +198,21 @@ def is_tippy(b):
     Return True if the board b contains a Tippy. 
     
     >>>tips = []
-    >>>tips.append(TippyState(1, False, [[' ', ' ', 'X'], [' ', 'X', 'X'],
+    >>>tips.append(TippyState('p1', False, [[' ', ' ', 'X'], [' ', 'X', 'X'],
     [' ', 'X', ' ']]))
-    >>>tips.append(TippyState(1, False, [['X', ' ', ' '], ['X', 'X', ' '],
+    >>>tips.append(TippyState('p1', False, [['X', ' ', ' '], ['X', 'X', ' '],
     [' ', 'X', ' ']]))
-    >>>tips.append(TippyState(1, False, [[' ', 'X', ' '], ['X', 'X', ' '],
+    >>>tips.append(TippyState('p1', False, [[' ', 'X', ' '], ['X', 'X', ' '],
     ['X', ' ', ' ']]))
-    >>>tips.append(TippyState(1, False, [[' ', 'X', ' '], [' ', 'X', 'X'],
+    >>>tips.append(TippyState('p1', False, [[' ', 'X', ' '], [' ', 'X', 'X'],
     [' ', ' ', 'X']]))
-    >>>tips.append(TippyState(1, False, [[' ', '', ' '], ['X', 'X', ' '],
+    >>>tips.append(TippyState('p1', False, [[' ', '', ' '], ['X', 'X', ' '],
     [' ', 'X', 'X']]))
-    >>>tips.append(TippyState(1, False, [[' ', '', ' '], [' ', 'X', 'X'],
+    >>>tips.append(TippyState('p1', False, [[' ', '', ' '], [' ', 'X', 'X'],
     ['X', 'X', ' ']]))
-    >>>tips.append(TippyState(1, False, [['X', 'X', ' '], [' ', 'X', 'X'],
+    >>>tips.append(TippyState('p1', False, [['X', 'X', ' '], [' ', 'X', 'X'],
     [' ', ' ', ' ']]))
-    >>>tips.append(TippyState(1, False, [[' ', 'X', 'X'], ['X', 'X', ' '],
+    >>>tips.append(TippyState('p1', False, [[' ', 'X', 'X'], ['X', 'X', ' '],
     [' ', ' ', ' ']]))
     >>>for state in tips:
     >>>    print(is_tippy(state.board))
