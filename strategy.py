@@ -1,7 +1,7 @@
 class Strategy:
     '''Interface to suggest moves for a GameState.
 
-    Must be subclassed to a concrete strategy.  Our intention is
+    Must be subclassed to a concrete strategy. Our intention is
     to provide a uniform interface for functions that suggest moves.
     '''
 
