@@ -20,13 +20,13 @@ class TippyMove(Move):
         ''' 
         blal
         '''
-        return 'TippyMove({},{}, {})'.format(self.x, self.y, repr(self.symbol))
+        return 'TippyMove({},{}, {})'.format(repr(self.x, self.y), repr(self.symbol))
 
     def __str__(self):
         """p
         bll
         """
-        return "to place an {} at ({},{})".format(self.symbol, self.x, self.y)
+        return "{} at ({},{})".format(self.symbol, self.x, self.y)
 
 
     def __eq__(self, other):
