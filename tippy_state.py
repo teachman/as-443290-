@@ -2,9 +2,10 @@ from game_state import GameState
 from tippy_move import TippyMove
 import copy
 
+
 class TippyState(GameState):
     """
-    blablalballasldasdlasldflfgafelrsifndclxkjn
+    The state of a subtract square game. 
     
     for debug:
     inherits:
@@ -19,14 +20,19 @@ class TippyState(GameState):
     """
 
     def __init__(self, p, interactive=False, board=[]):
+        """(TippyState, int, bool, list) -> NoneType
+
+        Initialize Tippy State self with board of n x n dimensions based on 
+        user input. 
+
+        Assume: p in {'p1', 'p2'}
         """
-        blalbladasld
-        """
+
         self.board = board
 
         if interactive:
-            n = input("How big should the board be? (3 is smallest.) \n")
-            
+
+            n = input("How big should the board be? \n")
             while not n.isnumeric() or int(n) < 3:
                 n = input("How big should the board be? \n")
 
@@ -36,43 +42,38 @@ class TippyState(GameState):
                     self.board[x].append(' ')
 
         GameState.__init__(self, p)
-        self.instructions = ('Tippy is a variation of tic-tac-toe where' +
-        ' each player attempts to create a tippy on the board, rather than' +
-        ' a straight line.\n Tippies resemble the red \'s\' and green \'z\''
-        ' tetronimos from tetris (any orientation is acceptable)\n.' +
-        ' The first player to form a tippy wins, if neither play can do' +
-        ' so the game ends in a tie.\n To input a move, first enter the' +
-        ' row of your choice then enter the colum.')
+        self.instructions = ('gotta make dem instructions')
 
     def __repr__(self):
         """(TippyState) -> str
-        
+
         Return a string representation of TippyState self
         that evaluates to an equivalent TippyState
-        
-        >>> t = TippyState('p1', False, 3)
+
+        >>> TippyState('p1', False,[[' ',' ',' '],[' ',' ',' '],[' ',' ',' ']])
         >>> t
         TippyState('p1', 3)
-        
         """
+
         return "TippyState({},{})".format(repr(self.next_player),
                                           repr(self.board))
 
+
     def __str__(self):
         """(TippyState) -> str
-        
+
         Return a convenient string representation of TippyState self.
-        
-        >>> t = TippyState('p1', False, 3)
+
+        >>> TippyState('p1', False,[[' ',' ',' '],[' ',' ',' '],[' ',' ',' ']]) 
         >>> print(t)
         Player p1
-          | |
+          | | 
         -------
-          | |
+          | | 
         -------
-          | |
+          | | 
         """
-       
+
         returnstatement = "Player {0}\n ".format(self.next_player)
 
         for x in range(len(self.board[0])):
@@ -89,11 +90,10 @@ class TippyState(GameState):
 
         Return True iff this TippyState is the equivalent to other.
 
-        >>> t1 = TippyState('p1', False, 3)
-        >>> t2 = TippyState('p1', False, 3)
+        >>> t1 = TippyState('p1', False,[[' ',' ',' '],[' ',' ',' '],[' ',' ',' ']])
+        >>> t2 = TippyState('p1', False,[[' ',' ',' '],[' ',' ',' '],[' ',' ',' ']])
         >>> t1 == t2
         True
-        
         """
         return (isinstance(other, TippyState) and self.board == other.board
                 and self.next_player == other.next_player)
@@ -103,13 +103,13 @@ class TippyState(GameState):
         """ (TippyState, TippyMove) -> TippyState
                 
         Return new TippyState iff TippyMove is legal. 
+
         
-        >>> t = TippyState('p1', False, 3)
-        >>> m = TippyMove((1,1), 'X')
+        >>> t = TippyState('p1', False,[[' ',' ',' '],[' ',' ',' '],[' ',' ',' ']])
+        >>> m = TippyMove(1,1, 'p1')
         t.apply_move(m) 
-        ???
-        """     
-        
+        TippyState('p2',[['X', ' ', ' '], [' ', ' ', ' '], [' ', ' ', ' ']])
+        """        
         if move in self.possible_next_moves():
             self.board[move.x - 1][move.y - 1] = move.symbol
             return self.__class__(self.opponent(), False, self.board)
@@ -120,9 +120,9 @@ class TippyState(GameState):
         """(TippyState) -> Float  
         
         Provide a rough estimate of the chances of winning with current
-        gamestate, b, based on the existence of an "L" shaped on the board.   
-        
+        gamestate, b, based on the existence of an "L" shaped on the board.        
         """
+
         for move in self.possible_next_moves():
             # maintain a copy
             new_self = copy.deepcopy(self).apply_move(move)
@@ -133,29 +133,50 @@ class TippyState(GameState):
                 for move in new_self.possible_next_moves():
                     print(copy.deepcopy(new_self).apply_move(move), '\n') 
                     if copy.deepcopy(new_self).apply_move(move).winner(self.opponent()):
-                        return -1
-                    
+                        return -1            
         return 0
              
                                           
 
     def get_move(self):
-        """(TippyState, TippyMove) -> TippyState
-                        
-        Return TippyMove generated by user input.
+        """ (TippyState) -> TippyState
         
-        """       
+        Prompt player for their move and return TippyMove. 
         
+        >>> TippyState('p1', False,[[' ',' ',' '],[' ',' ',' '],[' ',' ',' ']])
+        >>> t.get_move()
+        Which row? 
+        1
+        Which Column? 
+        1
+        TippyMove(1,1, 'X')
+        """        
         x, y = int(input("Which row? \n")), int(input("Which Column? \n"))
         return TippyMove((x, y), self.next_player)
 
     def winner(self, player):
+        """(TippyState, str) -> bool
+        
+        Return True if the player has won the game. 
+        
+        >>> t = (TippyState('p1', False, [[' ', 'X', 'X'], ['X', 'X', ' '],
+        [' ', ' ', ' ']])) 
+        >>> t.winner('p1')
+        True
+        """
 
         return is_tippy(self.board) and self.opponent() == player
 
     def possible_next_moves(self):
-        """
-        need to add checking for tippys
+        """(TippyState) -> list of TippyMove
+        
+        Return a list of legal moves for a given instance of the game. 
+        
+        >>> t = TippyState('p1', False,[[' ',' ',' '],[' ',' ',' '],[' ',' ',' ']])
+        >>> t.possible_next_moves()
+        [TippyMove(1,1, 'X'), TippyMove(1,2, 'X'), TippyMove(1,3, 'X'), \
+        TippyMove(2,1, 'X'), TippyMove(2,2, 'X'), TippyMove(2,3, 'X'), \
+        TippyMove(3,1, 'X'), TippyMove(3,2, 'X'), TippyMove(3,3, 'X')]
         """
 
         moves = []
@@ -177,21 +198,21 @@ def is_tippy(b):
     Return True if the board b contains a Tippy. 
     
     >>>tips = []
-    >>>tips.append(TippyState(1, False, [[' ', ' ', 'X'], [' ', 'X', 'X'],
+    >>>tips.append(TippyState('p1', False, [[' ', ' ', 'X'], [' ', 'X', 'X'],
     [' ', 'X', ' ']]))
-    >>>tips.append(TippyState(1, False, [['X', ' ', ' '], ['X', 'X', ' '],
+    >>>tips.append(TippyState('p1', False, [['X', ' ', ' '], ['X', 'X', ' '],
     [' ', 'X', ' ']]))
-    >>>tips.append(TippyState(1, False, [[' ', 'X', ' '], ['X', 'X', ' '],
+    >>>tips.append(TippyState('p1', False, [[' ', 'X', ' '], ['X', 'X', ' '],
     ['X', ' ', ' ']]))
-    >>>tips.append(TippyState(1, False, [[' ', 'X', ' '], [' ', 'X', 'X'],
+    >>>tips.append(TippyState('p1', False, [[' ', 'X', ' '], [' ', 'X', 'X'],
     [' ', ' ', 'X']]))
-    >>>tips.append(TippyState(1, False, [[' ', '', ' '], ['X', 'X', ' '],
+    >>>tips.append(TippyState('p1', False, [[' ', '', ' '], ['X', 'X', ' '],
     [' ', 'X', 'X']]))
-    >>>tips.append(TippyState(1, False, [[' ', '', ' '], [' ', 'X', 'X'],
+    >>>tips.append(TippyState('p1', False, [[' ', '', ' '], [' ', 'X', 'X'],
     ['X', 'X', ' ']]))
-    >>>tips.append(TippyState(1, False, [['X', 'X', ' '], [' ', 'X', 'X'],
+    >>>tips.append(TippyState('p1', False, [['X', 'X', ' '], [' ', 'X', 'X'],
     [' ', ' ', ' ']]))
-    >>>tips.append(TippyState(1, False, [[' ', 'X', 'X'], ['X', 'X', ' '],
+    >>>tips.append(TippyState('p1', False, [[' ', 'X', 'X'], ['X', 'X', ' '],
     [' ', ' ', ' ']]))
     >>>for state in tips:
     >>>    print(is_tippy(state.board))
@@ -221,5 +242,3 @@ def is_tippy(b):
                            (b[x][y + 1], b[x + 1][y + 1]) == s
 
     return False
-
-b = TippyState('p1', False, [['O', 'X', 'X'], [' ', 'X', 'O'],[' ', ' ', ' ']])
